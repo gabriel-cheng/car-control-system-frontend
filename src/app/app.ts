@@ -8,5 +8,5 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.css'
 })
 export class App {
-  protected title = 'car-control-system-frontend';
+  protected title = 'Sistema de controle de veículos';
 }
