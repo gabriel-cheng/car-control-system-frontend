@@ -1,4 +1,5 @@
 import { Phone } from "./phone.model";
+import { VehicleClientResponse } from "./vehicle.model";
 
 export class ClientRequestType {
   firstname: string;
@@ -29,6 +30,7 @@ export class ClientResponseType {
   email: string;
   address: string;
   phone: Phone[];
+  vehicle: VehicleClientResponse[];
 
   constructor(
     clientId: string,
@@ -36,7 +38,8 @@ export class ClientResponseType {
     surname: string,
     email: string,
     address: string,
-    phone: Phone[]
+    phone: Phone[],
+    vehicle: VehicleClientResponse[]
   ) {
     this.clientId = clientId;
     this.firstname = firstname;
@@ -44,5 +47,6 @@ export class ClientResponseType {
     this.email = email;
     this.address = address;
     this.phone = phone;
+    this.vehicle = vehicle;
   }
 }

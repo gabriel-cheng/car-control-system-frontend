@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, effect, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ClientApiService } from '../../../services/api/client/client.service';
+import { ClientApiService } from '../../../services/api/client/client.service.api';
 import { ClientResponseType } from '../../../model/client.model';
 
 @Component({
@@ -16,26 +16,31 @@ import { ClientResponseType } from '../../../model/client.model';
 })
 export class ClientComponent {
 
-  clients = signal<ClientResponseType[]>([]);
+  clients: ClientResponseType[] = [];
 
   constructor(
-    private clientApiService: ClientApiService
-  ) {
-    effect(() => {
-      this.clientApiService.getClients().subscribe((res) => {
-        this.clients.set(res);
-      });
+    private clientApiService: ClientApiService,
+  ) { }
+
+  ngOnInit(): void {
+    this.loadClients();
+  }
+
+  loadClients(): void {
+    this.clientApiService.getClients().subscribe(data => {
+      this.clients = data;
     });
   }
 
-  // ngOnInit(): void {
-  //   this.loadClients();
-  // }
-
-  // loadClients(): void {
-  //   const clients: Observable<ClientResponseType[]> = this.clientApiService.getClients();
-
-  //   console.log(clients);
-  // }
+  deleteClient(clientId: string): void {
+    if(confirm("Tem certeza que deseja deletar este cliente?")) {
+      this.clientApiService.deleteClient(clientId).subscribe({
+        next: () => {
+          this.clients = this.clients.filter(c => c.clientId !== clientId);
+        },
+        error: err => console.error("Erro ao deletar cliente!", err)
+      });
+    }
+  }
 
 }

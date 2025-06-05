@@ -44,3 +44,5 @@ Thumbs.db
 # Environments
 .env
 src/environments/environments.ts
+src/environments/environments.prod.ts
+src/proxy.conf.example.ts

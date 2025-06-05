@@ -1,6 +1,7 @@
-import { environment } from "./environments/environments";
+// import { environment } from "./environments/environments";
 
-const apiUrl = environment.apiUrl || "http://localhost:8080";
+// const apiUrl = environment.apiUrl || "http://localhost:8080";
+const apiUrl = "http://localhost:8080";
 
 export default {
   "/api": {

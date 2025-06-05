@@ -1,0 +1,46 @@
+<form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
+  <div class="mb-3">
+    <label for="description" class="form-label">Descrição</label>
+    <input type="text" id="description" class="form-control" formControlName="description">
+  </div>
+
+  <div class="mb-3">
+    <label for="plate" class="form-label">Placa</label>
+    <input type="text" id="plate" class="form-control" formControlName="plate">
+  </div>
+
+  <div class="mb-3">
+    <label for="brand" class="form-label">Marca</label>
+    <input type="text" id="brand" class="form-control" formControlName="brand">
+  </div>
+
+  <div class="mb-3">
+    <label for="model" class="form-label">Modelo</label>
+    <input type="text" id="model" class="form-control" formControlName="model">
+  </div>
+
+  <div class="mb-3">
+    <label for="color" class="form-label">Cor</label>
+    <input type="text" id="color" class="form-control" formControlName="color">
+  </div>
+
+  <fieldset class="border p-3 mb-3">
+    <legend class="w-auto px-2">Cliente</legend>
+    <div *ngFor="let item of availableClients" class="form-check">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        [checked]="isClientSelected(item)"
+        (change)="onClientToggle(item, $event)"
+        id="hamburger-{{item.clientId}}"
+      />
+      <label class="form-check-label" for="hamburger-{{item.clientId}}">
+        {{ item.firstname }}
+      </label>
+    </div>
+  </fieldset>
+
+  <button type="submit" class="btn btn-success">
+    {{ vehicle ? 'Atualizar' : 'Criar' }} Veículo
+  </button>
+</form>
