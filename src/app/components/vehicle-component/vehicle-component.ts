@@ -14,11 +14,19 @@ import { VehicleForm } from '../forms/vehicle-form/vehicle-form';
 })
 export class VehicleComponent {
   vehicles: VehicleResponseType[] = [];
+  selectedVehicle: VehicleRequestType | null = null;
+
+  isFormVisible: boolean = false;
 
   constructor(private vehicleApiService: VehicleApiService) {}
 
   ngOnInit(): void {
     this.loadVehicles();
+  }
+
+  showCreateForm(): void {
+    this.selectedVehicle = null;
+    this.isFormVisible = true;
   }
 
   loadVehicles(): void {

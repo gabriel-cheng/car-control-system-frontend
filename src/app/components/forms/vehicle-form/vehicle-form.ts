@@ -1,26 +1,23 @@
 import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { VehicleRequestType, VehicleResponseType } from '../../../../model/vehicle.model';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ClientResponseType } from '../../../../model/client.model';
 import { ClientApiService } from '../../../../services/api/client/client.service.api';
 
 @Component({
   selector: 'app-vehicle-form',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './vehicle-form.html',
   styleUrl: './vehicle-form.css',
 })
 export class VehicleForm {
-  @Input() vehicle: VehicleRequestType = {
-    description: '',
-    plate: '',
-    brand: '',
-    model: '',
-    color: '',
-    client: '',
-  };
+  @Input() vehicle: VehicleRequestType | null = null;
   @Output() formSubmit = new EventEmitter<VehicleRequestType>();
+
+  filteredClients: ClientResponseType[] = [];
+
+  searchTerm: string = "";
 
   isFormVisible = false;
 
@@ -49,6 +46,7 @@ export class VehicleForm {
   loadClients(): void {
     this.clientApiService.getClients().subscribe((data) => {
       this.availableClients = data;
+      this.filteredClients = data;
     });
   }
 
@@ -74,14 +72,29 @@ export class VehicleForm {
     }
   }
 
+  filterClients(): void {
+    const term = this.searchTerm.toLowerCase();
+
+    this.filteredClients = this.availableClients.filter((client) => {
+      const fullName = `${client.firstname} ${client.surname}`.toLowerCase();
+
+      return(
+        client.firstname?.toLowerCase().includes(term) ||
+        client.surname?.toLowerCase().includes(term) ||
+        client.email?.toLowerCase().includes(term) ||
+        fullName.includes(term)
+      );
+    });
+  }
+
   private buildForm(): void {
     this.vehicleForm = this.fb.group({
-      description: [this.vehicle.description, Validators.required],
-      plate: [this.vehicle.plate, Validators.required],
-      brand: [this.vehicle.brand, Validators.required],
-      model: [this.vehicle.model, Validators.required],
-      color: [this.vehicle.color, Validators.required],
-      client: [this.vehicle.client, Validators.required],
+      description: [this.vehicle?.description, Validators.required],
+      plate: [this.vehicle?.plate, Validators.required],
+      brand: [this.vehicle?.brand, Validators.required],
+      model: [this.vehicle?.model, Validators.required],
+      color: [this.vehicle?.color, Validators.required],
+      client: [this.vehicle?.client, Validators.required],
     });
   }
 

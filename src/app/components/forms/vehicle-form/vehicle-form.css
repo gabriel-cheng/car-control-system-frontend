@@ -1,0 +1,36 @@
+svg {
+  right: 183px;
+}
+
+fieldset {
+  min-width: 465px;
+  min-height: 120px;
+}
+
+#searchBar {
+  padding-left: 30px;
+  width: 60%;
+}
+
+#clients-list-header {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 10px;
+  background-color: white;
+}
+
+#clients-data-container {
+  margin-top: 60px;
+  padding: 0 20px;
+  max-height: 130px;
+  min-height: 50px;
+  overflow-y: scroll;
+}
+
+#client-data-row {
+  background-color: #f1f1f1;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}

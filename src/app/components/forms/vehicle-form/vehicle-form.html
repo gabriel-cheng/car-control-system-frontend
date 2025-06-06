@@ -1,46 +1,81 @@
-<form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
-  <div class="mb-3">
-    <label for="description" class="form-label">Descrição</label>
-    <input type="text" id="description" class="form-control" formControlName="description">
-  </div>
+<div class="modal fade" id="vehicleModal" tabindex="-1" aria-labelledby="vehicleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="vehicleModalLabel">New message</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <form
+            [formGroup]="vehicleForm"
+            (ngSubmit)="onSubmit()"
+            class="d-flex flex-wrap justify-content-center gap-3"
+          >
+          <div class="mb-3">
+            <label for="description" class="form-label">Descrição</label>
+            <input type="text" id="description" class="form-control" formControlName="description">
+          </div>
 
-  <div class="mb-3">
-    <label for="plate" class="form-label">Placa</label>
-    <input type="text" id="plate" class="form-control" formControlName="plate">
-  </div>
+          <div class="mb-3">
+            <label for="plate" class="form-label">Placa</label>
+            <input type="text" id="plate" class="form-control" formControlName="plate">
+          </div>
 
-  <div class="mb-3">
-    <label for="brand" class="form-label">Marca</label>
-    <input type="text" id="brand" class="form-control" formControlName="brand">
-  </div>
+          <div class="mb-3">
+            <label for="brand" class="form-label">Marca</label>
+            <input type="text" id="brand" class="form-control" formControlName="brand">
+          </div>
 
-  <div class="mb-3">
-    <label for="model" class="form-label">Modelo</label>
-    <input type="text" id="model" class="form-control" formControlName="model">
-  </div>
+          <div class="mb-3">
+            <label for="model" class="form-label">Modelo</label>
+            <input type="text" id="model" class="form-control" formControlName="model">
+          </div>
 
-  <div class="mb-3">
-    <label for="color" class="form-label">Cor</label>
-    <input type="text" id="color" class="form-control" formControlName="color">
-  </div>
+          <div class="mb-3 w-100">
+            <label for="color" class="form-label">Cor</label>
+            <input type="text" id="color" class="form-control" formControlName="color">
+          </div>
 
-  <fieldset class="border p-3 mb-3">
-    <legend class="w-auto px-2">Cliente</legend>
-    <div *ngFor="let item of availableClients" class="form-check">
-      <input
-        class="form-check-input"
-        type="checkbox"
-        [checked]="isClientSelected(item)"
-        (change)="onClientToggle(item, $event)"
-        id="hamburger-{{item.clientId}}"
-      />
-      <label class="form-check-label" for="hamburger-{{item.clientId}}">
-        {{ item.firstname }}
-      </label>
+          <fieldset class="border mb-3 position-relative">
+            <div id="clients-list-header" class="d-flex flex-row-reverse w-100">
+              <div class="w-100 d-flex align-items-center justify-content-end position-relative">
+                <input
+                  id="searchBar"
+                  type="text"
+                  class="form-control"
+                  placeholder="Buscar cliente..."
+                  [(ngModel)]="searchTerm"
+                  [ngModelOptions]="{ standalone: true }"
+                  (ngModelChange)="filterClients()"
+                />
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search z-1 position-absolute" viewBox="0 0 16 16">
+                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                </svg>
+              </div>
+              <legend class="w-auto px-2">Clientes</legend>
+            </div>
+            <div *ngIf="filteredClients.length > 0" id="clients-data-container">
+              <div id="client-data-row" *ngFor="let item of filteredClients" class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  [checked]="isClientSelected(item)"
+                  (change)="onClientToggle(item, $event)"
+                  id="vehicle-{{item.clientId}}"
+                />
+                <label class="form-check-label" for="vehicle-{{item.clientId}}">
+                  {{ item.firstname }} {{ item.surname }}  - {{ item.email }}
+                </label>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success">
+          {{ vehicle ? 'Atualizar' : 'Criar' }} Veículo
+        </button>
+      </div>
     </div>
-  </fieldset>
-
-  <button type="submit" class="btn btn-success">
-    {{ vehicle ? 'Atualizar' : 'Criar' }} Veículo
-  </button>
-</form>
+  </div>
+</div>
